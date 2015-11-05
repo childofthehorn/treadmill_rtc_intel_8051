@@ -1,0 +1,297 @@
+﻿;Stacy Devino
+;Lab 2b
+;EECS 346
+;TreadMill starter program using 8051
+;Yes, you use an external EEprom
+
+
+
+
+;start RTC + P1 (port_1)
+
+
+
+
+
+
+mov p1,#h'00
+
+
+mov R0, #h'ff
+
+
+loopit:
+
+
+mov R1, #h'ff
+
+
+loopnow:
+
+
+nop
+
+
+nop
+
+
+djnz R1,loopit
+
+
+djnz R0,loopnow
+
+
+
+
+
+
+;Set registers
+
+
+
+
+
+
+mov DPTR, #h'800A ;Register A
+
+
+mov A,#d'0032
+
+
+movx @DPTR,A
+
+
+
+
+
+
+mov DPTR, #h'800B ; Register B
+
+
+mov A,#d'0128
+
+
+movx @DPTR,A
+
+
+
+
+
+
+mov DPTR,#h'8000 ;seconds
+
+
+mov A,#h'00
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8001
+
+
+mov A,#h'00
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8002 ;minutes
+
+
+mov A,#h'00
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8003
+
+
+mov A,#h'00
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8004 ;hours
+
+
+mov A,#h'00
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8005
+
+
+mov A,#h'00
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8006
+
+
+mov A,#h'01
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8007
+
+
+mov A,#h'01
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8008
+
+
+mov A,#h'01
+
+
+movx @DPTR,A
+
+
+mov DPTR,#h'8009
+
+
+mov A,#h'01
+
+
+movx @DPTR,A
+
+
+
+
+
+
+;Reset B
+
+
+mov DPTR, #h'800B
+
+
+mov A,#h'00
+
+
+movx @DPTR,A
+
+
+
+
+
+
+rxd_pin:
+
+
+
+
+
+
+JB p3.0, Hours
+
+
+clr p3.0
+
+
+
+
+
+
+Seconds:
+
+
+
+
+
+
+mov DPTR,#h'8000
+
+
+movx A, @DPTR
+
+
+mov p1, A
+
+
+setb p3.4
+
+
+clr p3.4
+
+
+
+
+
+
+mov DPTR,#h'8002
+
+
+movx A, @DPTR
+
+
+mov p1, A
+
+
+setb p3.5
+
+
+clr p3.5
+
+
+jmp Seconds
+
+
+
+
+
+
+Hours:
+
+
+
+
+
+
+mov DPTR,#h'8002
+
+
+movx A, @DPTR
+
+
+mov p1, A
+
+
+setb p3.4
+
+
+clr p3.4
+
+
+
+
+
+
+mov DPTR,#h'8004
+
+
+movx A, @DPTR
+
+
+mov p1, A
+
+
+setb p3.5
+
+
+clr p3.5
+
+
+jmp Hours
